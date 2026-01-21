@@ -98,10 +98,10 @@ const UserProfile = () => {
         <button
           type="button"
           onClick={() => navigate('/dashboard')}
-          className="hidden sm:inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-slate-100/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+          className="inline-flex items-center gap-2 px-3 py-2 text-xs font-medium rounded-lg bg-slate-100/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
         >
           <FaArrowLeft className="text-xs" />
-          <span>Volver</span>
+          <span className="hidden sm:inline">Volver</span>
         </button>
       </div>
   {/* Card principal */}

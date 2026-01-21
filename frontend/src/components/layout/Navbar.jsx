@@ -110,6 +110,26 @@ const Navbar = () => {
                 </span>
               </button>
 
+              {/* User profile (mobile icon) */}
+              <button
+                type="button"
+                onClick={() => navigate('/profile')}
+                className="inline-flex sm:hidden items-center justify-center w-8 h-8 rounded-full hover:bg-slate-200/80 dark:hover:bg-slate-700/80 transition-colors"
+                aria-label="Ir a mi perfil"
+              >
+                <div className="w-7 h-7 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center overflow-hidden border border-slate-300 dark:border-slate-600">
+                  {getAvatarUrl() ? (
+                    <img
+                      src={getAvatarUrl()}
+                      alt="Avatar"
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <FaUser className="text-slate-600 dark:text-slate-200 text-xs" />
+                  )}
+                </div>
+              </button>
+
               {/* Logout button */}
               <button
                 onClick={logout}

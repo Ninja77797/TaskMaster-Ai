@@ -1,18 +1,8 @@
-import { useEffect } from 'react';
 import Navbar from '../components/layout/Navbar';
 import Footer from '../components/layout/Footer';
 import UserProfile from '../components/user/UserProfile';
 
 const ProfilePage = () => {
-  useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = previousOverflow || '';
-    };
-  }, []);
-
   return (
     <div className="min-h-screen flex flex-col pb-20">
       <Navbar />
