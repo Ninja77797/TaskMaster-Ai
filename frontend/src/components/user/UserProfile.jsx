@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/authStore';
 import api from '../../services/api';
@@ -14,19 +14,38 @@ const UserProfile = () => {
     email: user?.email || '',
     avatar: user?.avatar || '',
   });
+  const [hasChanges, setHasChanges] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleting, setDeleting] = useState(false);
 
+  useEffect(() => {
+    setFormData({
+      name: user?.name || '',
+      email: user?.email || '',
+      avatar: user?.avatar || '',
+    });
+    setHasChanges(false);
+  }, [user]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      const updated = { ...prev, [name]: value };
+      const changed =
+        updated.name !== (user?.name || '') ||
+        updated.email !== (user?.email || '');
+      setHasChanges(changed);
+      return updated;
+    });
   };
 
   const handleSave = async (e) => {
     e.preventDefault();
+    if (!hasChanges) return;
     try {
       await updateProfile(formData);
       toast.success('Perfil actualizado correctamente');
+      setHasChanges(false);
     } catch (error) {
       const msg = error.response?.data?.message || 'Error al actualizar el perfil';
       toast.error(msg);
@@ -180,14 +199,16 @@ const UserProfile = () => {
           </div>
 
           <div className="flex justify-end gap-3 pt-2 border-t border-slate-100 dark:border-slate-800 mt-1">
-            <button
-              type="submit"
-              disabled={loading}
-              className="btn-primary flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              <FaSave />
-              <span>Guardar cambios</span>
-            </button>
+            {hasChanges && (
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary flex items-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+              >
+                <FaSave />
+                <span>Guardar cambios</span>
+              </button>
+            )}
           </div>
         </form>
         {/* Zona de peligro dentro de la misma tarjeta */}
