@@ -32,7 +32,21 @@ const Register = () => {
     'https://images.pexels.com/photos/1434608/pexels-photo-1434608.jpeg?auto=compress&cs=tinysrgb&w=1600';
 
   return (
-    <div className="min-h-screen flex bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 relative">
+    <div className="min-h-screen relative flex items-center justify-center overflow-hidden bg-slate-100 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+      {/* Fondo de imagen ocupando todo */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#1e293b,_#020617)] dark:bg-[radial-gradient(circle_at_top,_#020617,_#020617)]" />
+        <div
+          className={`absolute inset-0 bg-cover bg-center mix-blend-normal transition-opacity duration-700 ${darkMode ? 'opacity-0' : 'opacity-80'}`}
+          style={{ backgroundImage: `url(${imageUrlLight})` }}
+        />
+        <div
+          className={`absolute inset-0 bg-cover bg-center mix-blend-normal transition-opacity duration-700 ${darkMode ? 'opacity-80' : 'opacity-0'}`}
+          style={{ backgroundImage: `url(${imageUrlDark})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent dark:from-slate-950/95 dark:via-slate-950/60 dark:to-transparent" />
+      </div>
+
       {/* Toggle tema arriba a la derecha */}
       <button
         type="button"
@@ -47,157 +61,143 @@ const Register = () => {
         )}
       </button>
 
-      {/* Panel izquierdo: solo formulario (mismo layout que Login) */}
-      <div className="flex-1 md:w-[55%] flex flex-col px-6 sm:px-12 lg:pl-20 lg:pr-10 py-8">
-        <main className="flex-1 flex items-center">
-          <div className="w-full max-w-lg mx-auto animate-scale-in">
-            {/* Header formulario */}
-            <div className="mb-8">
-              <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
-                Crea tu cuenta
-              </p>
-              <h1 className="text-3xl sm:text-4xl font-semibold leading-snug mb-2 text-slate-900 dark:text-slate-50">
-                Empecemos a organizar
-              </h1>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-md">
-                Regístrate para empezar a planear tus tareas con IA.
-              </p>
-            </div>
-
-            {/* Contenido del formulario (flotando, sin carta) */}
-            <div className="space-y-4">
-          {error && (
-            <div className="mb-2 p-4 bg-gradient-to-r from-rose-50/5 to-red-50/5 border-l-4 border-rose-500/80 rounded-xl text-rose-300 font-medium animate-slide-down">
-              {error}
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                Nombre
-              </label>
-              <div className="relative group">
-                <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors duration-200" />
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-2xl border text-sm pl-11 pr-4 py-3 bg-slate-50/90 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
-                  placeholder="Tu nombre"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                Email
-              </label>
-              <div className="relative group">
-                <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors duration-200" />
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-2xl border text-sm pl-11 pr-4 py-3 bg-slate-50/90 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
-                  placeholder="tu@email.com"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">
-                Contraseña
-              </label>
-              <div className="relative group">
-                <FaLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 group-focus-within:text-indigo-400 transition-colors duration-200" />
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-                  minLength={6}
-                  className="w-full rounded-2xl border text-sm pl-11 pr-11 py-3 bg-slate-50/90 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/80 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
-                  placeholder="Mínimo 6 caracteres"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 hover:text-indigo-400 transition-all hover:scale-110 active:scale-95"
-                >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </button>
-              </div>
-            </div>
-
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full flex items-center justify-center gap-2 group mt-3 px-5 py-3 rounded-2xl text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed shadow-[0_12px_30px_rgba(79,70,229,0.45)] transition-all"
-            >
-              {loading ? (
-                <>
-                  <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  <span>Creando cuenta...</span>
-                </>
-              ) : (
-                <>
-                  <span>Crear Cuenta</span>
-                  <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-                </>
-              )}
-            </button>
-          </form>
-
-          <div className="mt-4 flex items-center gap-3 text-[11px] text-slate-500">
-            <div className="h-px flex-1 bg-slate-800/60" />
-            <span>o regístrate con</span>
-            <div className="h-px flex-1 bg-slate-800/60" />
-          </div>
-
-          <button
-            type="button"
-            onClick={loginWithGoogle}
-            className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300/80 bg-white text-slate-800 text-sm font-medium py-2.5 shadow-sm hover:bg-slate-50 hover:border-slate-400 transition-colors dark:bg-slate-900/90 dark:text-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
-          >
-            <FaGoogle aria-hidden="true" className="w-5 h-5 text-[#4285F4]" />
-            <span>Continuar con Google</span>
-          </button>
-
-          <div className="mt-5 pt-4 border-t border-slate-800/80">
-            <p className="text-center text-xs text-slate-500">
-              ¿Ya tienes cuenta?{' '}
-              <Link
-                to="/login"
-                className="font-semibold text-indigo-400 hover:text-indigo-300 transition-colors"
-              >
-                Inicia sesión →
-              </Link>
+      {/* Contenido principal sobre el fondo (formulario en vidrio) */}
+      <main className="relative z-10 w-full px-4 sm:px-6 flex justify-center">
+        <div className="w-full max-w-lg animate-scale-in">
+          {/* Header formulario */}
+          <div className="mb-6 sm:mb-8 text-slate-100">
+            <p className="text-xs sm:text-sm font-medium text-slate-100/90 mb-2">
+              Crea tu cuenta
+            </p>
+            <h1 className="text-3xl sm:text-4xl font-semibold leading-snug mb-2 text-white">
+              Empecemos a organizar
+            </h1>
+            <p className="text-sm sm:text-base text-slate-100/80 max-w-md">
+              Regístrate para empezar a planear tus tareas con IA.
             </p>
           </div>
-        </div>
-          </div>
-        </main>
-      </div>
 
-      {/* Panel derecho: fondo con imagen/gradiente suave, división recta y crossfade de imagen según tema (igual que Login) */}
-      <div className="hidden md:block w-[45%] lg:w-[48%] relative overflow-hidden rounded-l-3xl shadow-[0_0_60px_rgba(15,23,42,0.9)]">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_#1e293b,_#020617)] dark:bg-[radial-gradient(circle_at_top,_#020617,_#020617)]" />
-        <div
-          className={`absolute inset-0 bg-cover bg-center mix-blend-normal transition-opacity duration-700 ${darkMode ? 'opacity-0' : 'opacity-80'}`}
-          style={{ backgroundImage: `url(${imageUrlLight})` }}
-        />
-        <div
-          className={`absolute inset-0 bg-cover bg-center mix-blend-normal transition-opacity duration-700 ${darkMode ? 'opacity-80' : 'opacity-0'}`}
-          style={{ backgroundImage: `url(${imageUrlDark})` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
-      </div>
+          <div className="relative">
+            {/* Tarjeta efecto cristal / agua (muy intenso) */}
+            <div className="rounded-3xl border border-slate-100/90 bg-white/8 text-slate-900 bg-clip-padding backdrop-blur-2xl shadow-[0_36px_110px_rgba(15,23,42,0.9)] px-5 sm:px-7 py-5 sm:py-7 space-y-4 dark:border-slate-200/70 dark:bg-slate-900/65 dark:text-slate-50 dark:backdrop-blur-2xl dark:shadow-[0_40px_120px_rgba(15,23,42,1)]">
+              {error && (
+                <div className="mb-1.5 p-3.5 bg-gradient-to-r from-rose-500/10 to-red-500/10 border border-rose-500/40 rounded-2xl text-rose-100 text-sm font-medium animate-slide-down">
+                  {error}
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-slate-100 mb-1.5">
+                    Nombre
+                  </label>
+                  <div className="relative group">
+                    <FaUser className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-300 transition-colors duration-200" />
+                    <input
+                      type="text"
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-2xl border text-sm pl-11 pr-4 py-3 bg-white/80 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/60 dark:border-slate-600/60 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
+                      placeholder="Tu nombre"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-100 mb-1.5">
+                    Email
+                  </label>
+                  <div className="relative group">
+                    <FaEnvelope className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-300 transition-colors duration-200" />
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-2xl border text-sm pl-11 pr-4 py-3 bg-white/80 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/60 dark:border-slate-600/60 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
+                      placeholder="tu@email.com"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-slate-100 mb-1.5">
+                    Contraseña
+                  </label>
+                  <div className="relative group">
+                    <FaLock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 group-focus-within:text-indigo-500 dark:group-focus-within:text-indigo-300 transition-colors duration-200" />
+                    <input
+                      type={showPassword ? 'text' : 'password'}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      required
+                      minLength={6}
+                      className="w-full rounded-2xl border text-sm pl-11 pr-11 py-3 bg-white/80 border-slate-300 text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 dark:bg-slate-900/60 dark:border-slate-600/60 dark:text-slate-50 dark:placeholder-slate-400 dark:focus:ring-indigo-400 dark:focus:border-indigo-400"
+                      placeholder="Mínimo 6 caracteres"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-300 transition-all hover:scale-110 active:scale-95"
+                    >
+                      {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-2 group mt-3 px-5 py-3 rounded-2xl text-sm font-medium text-white bg-indigo-600/90 hover:bg-indigo-500 disabled:opacity-60 disabled:cursor-not-allowed shadow-md hover:shadow-lg transition-all"
+                >
+                  {loading ? (
+                    <>
+                      <div className="w-5 h-5 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+                      <span>Creando cuenta...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>Crear Cuenta</span>
+                      <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <div className="mt-3 flex items-center gap-3 text-[11px] text-slate-100/90 dark:text-slate-100/90">
+                <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-500/80" />
+                <span>o regístrate con</span>
+                <div className="h-px flex-1 bg-slate-200/80 dark:bg-slate-500/80" />
+              </div>
+
+              <button
+                type="button"
+                onClick={loginWithGoogle}
+                className="mt-3 w-full inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-300 bg-white/90 text-slate-800 text-sm font-medium py-2.5 shadow-sm hover:bg-slate-50 hover:border-slate-400 transition-colors dark:border-slate-300/60 dark:bg-slate-900/70 dark:text-slate-50 dark:hover:bg-slate-900/90 dark:hover:border-slate-100/70"
+              >
+                <FaGoogle aria-hidden="true" className="w-5 h-5 text-[#4285F4]" />
+                <span>Continuar con Google</span>
+              </button>
+
+              <div className="mt-4 pt-4 border-t border-slate-200/70 dark:border-slate-600/60">
+                <p className="text-center text-xs text-slate-100/90 dark:text-slate-100/90">
+                  ¿Ya tienes cuenta?{' '}
+                  <Link
+                    to="/login"
+                    className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-indigo-300 dark:hover:text-indigo-200 transition-colors"
+                  >
+                    Inicia sesión →
+                  </Link>
+                </p>
+              </div>
+              </div>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };
