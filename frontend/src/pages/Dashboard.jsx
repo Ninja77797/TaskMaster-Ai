@@ -218,6 +218,27 @@ const Dashboard = () => {
         {/* Filtros y acciones */}
         <div className="card-static p-6 mb-8" data-tour="filters">
           <div className="flex flex-col gap-4">
+            {/* Botones de acción */}
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setShowTaskForm(true)}
+                className="btn-primary flex items-center justify-center gap-2"
+                data-tour="new-task"
+              >
+                <FaPlus />
+                <span>Nueva tarea</span>
+              </button>
+
+              <button
+                onClick={() => setShowAI(true)}
+                className="btn-secondary btn-ia-neon flex items-center justify-center gap-2"
+                data-tour="ai-assistant"
+              >
+                <FaRobot />
+                <span>Asistente IA</span>
+              </button>
+            </div>
+
             {/* Búsqueda */}
             <div className="relative group">
               <FaSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 z-10" />
@@ -230,7 +251,7 @@ const Dashboard = () => {
               />
             </div>
             
-            {/* Filtros y botones */}
+            {/* Filtros */}
             <div className="flex flex-col lg:flex-row gap-4 lg:items-center">
               <div className="flex items-center gap-2">
                 <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800">
@@ -260,27 +281,6 @@ const Dashboard = () => {
                   <option value="medium">Prioridad media</option>
                   <option value="high">Prioridad alta</option>
                 </select>
-              </div>
-
-              {/* Botones de acción */}
-              <div className="flex gap-3">
-                <button
-                  onClick={() => setShowTaskForm(true)}
-                  className="btn-primary flex items-center justify-center gap-2"
-                  data-tour="new-task"
-                >
-                  <FaPlus /> 
-                  <span className="hidden sm:inline">Nueva tarea</span>
-                </button>
-                
-                <button
-                  onClick={() => setShowAI(true)}
-                  className="btn-secondary btn-ia-neon flex items-center justify-center gap-2"
-                  data-tour="ai-assistant"
-                >
-                  <FaRobot /> 
-                  <span className="hidden sm:inline">Asistente IA</span>
-                </button>
               </div>
             </div>
           </div>
