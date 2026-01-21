@@ -53,13 +53,13 @@ const Register = () => {
           <div className="w-full max-w-lg mx-auto animate-scale-in">
             {/* Header formulario */}
             <div className="mb-8">
-              <p className="text-xs sm:text-sm font-medium text-slate-500 mb-2">
+              <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400 mb-2">
                 Crea tu cuenta
               </p>
-              <h1 className="text-3xl sm:text-4xl font-semibold leading-snug mb-2 text-slate-50">
+              <h1 className="text-3xl sm:text-4xl font-semibold leading-snug mb-2 text-slate-900 dark:text-slate-50">
                 Empecemos a organizar
               </h1>
-              <p className="text-sm sm:text-base text-slate-400 max-w-md">
+              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 max-w-md">
                 Regístrate para empezar a planear tus tareas con IA.
               </p>
             </div>
