@@ -47,19 +47,26 @@ const TaskForm = ({ onClose, taskToEdit = null }) => {
         description: formData.description,
       });
 
-      setFormData({
-        ...formData,
-        priority: analysis.priority,
-        estimatedTime: analysis.estimatedTime,
-        tags: analysis.tags.join(', '),
-      });
+      setFormData((prev) => ({
+        ...prev,
+        priority: analysis.priority || prev.priority,
+        estimatedTime: analysis.estimatedTime || prev.estimatedTime,
+        tags: analysis.tags?.join(', ') || prev.tags,
+        category: analysis.category || prev.category,
+        description: analysis.description || prev.description,
+      }));
 
       // Agregar subtareas generadas por IA
       if (analysis.subtasks && analysis.subtasks.length > 0) {
-        setSubtasks([...subtasks, ...analysis.subtasks.map(st => ({ title: st.title, completed: false }))]);
+        setSubtasks([
+          ...subtasks,
+          ...analysis.subtasks.map((st) => ({ title: st.title, completed: false })),
+        ]);
       }
 
-      toast.success('La IA ha analizado tu tarea y ha sugerido subtareas y tiempos.');
+      toast.success(
+        'La IA ha analizado tu tarea y ha sugerido categoría, descripción, subtareas, prioridad, tiempo y etiquetas.'
+      );
     } catch (error) {
       toast.error('Error al analizar la tarea con IA.');
     } finally {
@@ -96,8 +103,14 @@ const TaskForm = ({ onClose, taskToEdit = null }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-2 sm:p-4 z-50 animate-fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-xl shadow-lg max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto border border-slate-200 dark:border-slate-700 animate-scale-in">
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4 z-50 animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white dark:bg-slate-900 rounded-xl shadow-lg max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto scrollbar-hide border border-slate-200 dark:border-slate-700 animate-scale-in"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex justify-between items-center p-5 sm:p-6 border-b border-slate-200 dark:border-slate-700 sticky top-0 bg-white dark:bg-slate-900 z-10">
           <div className="flex items-center gap-3 sm:gap-4">

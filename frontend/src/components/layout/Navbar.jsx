@@ -2,7 +2,7 @@ import { useAuthStore } from '../../store/authStore';
 import { useTheme } from '../../context/ThemeContext';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
-import { FaRegCheckSquare, FaSignOutAlt, FaMoon, FaSun, FaUser } from 'react-icons/fa';
+import { FaSignOutAlt, FaMoon, FaSun, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
   const { user, logout } = useAuthStore();
@@ -20,17 +20,49 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="glass-effect sticky top-0 z-50">
+    <nav className="glass-effect sticky top-0 z-50" data-tour="navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 py-2.5">
           {/* Logo */}
           <div className="flex items-center gap-3 cursor-default">
-            <div className="w-9 h-9 rounded-xl bg-indigo-600/90 flex items-center justify-center shadow-sm">
-              <FaRegCheckSquare className="text-white text-base" />
+            <div className="w-9 h-9 flex items-center justify-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 64 64"
+                aria-hidden="true"
+                className="w-9 h-9"
+              >
+                <defs>
+                  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stopColor="#4f46e5" />
+                    <stop offset="1" stopColor="#6366f1" />
+                  </linearGradient>
+                  <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feDropShadow dx="0" dy="4" stdDeviation="4" floodColor="#0f172a" floodOpacity="0.45" />
+                  </filter>
+                </defs>
+                <rect
+                  x="10"
+                  y="10"
+                  width="44"
+                  height="44"
+                  rx="18"
+                  fill="url(#bg)"
+                  filter="url(#shadow)"
+                />
+                <path
+                  d="M22 20 v22 m0 0 L30 34 m0 0 L42 22"
+                  fill="none"
+                  stroke="#f9fafb"
+                  strokeWidth="4.2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
             </div>
             <div>
               <span className="text-lg font-semibold text-slate-900 dark:text-slate-50">
-                TaskMaster
+                Kadoo
               </span>
               <p className="text-xs text-slate-500 dark:text-slate-400">Panel de tareas</p>
             </div>
@@ -65,6 +97,10 @@ const Navbar = () => {
                       alt="Avatar"
                       className="w-full h-full object-cover"
                     />
+                  ) : user?.name ? (
+                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-100 uppercase">
+                      {user.name.charAt(0)}
+                    </span>
                   ) : (
                     <FaUser className="text-slate-600 dark:text-slate-200 text-sm" />
                   )}

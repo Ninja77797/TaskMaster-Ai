@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useTaskStore } from '../../store/taskStore';
 import { FaCheck, FaTrash, FaEdit, FaClock, FaChevronDown, FaEllipsisV, FaCheckCircle } from 'react-icons/fa';
 import TaskForm from './TaskForm';
+import ConfirmModal from '../common/ConfirmModal';
 
 const TaskCard = ({ task }) => {
   const { toggleComplete, deleteTask, toggleSubtask } = useTaskStore();
   const [showSubtasks, setShowSubtasks] = useState(false);
   const [showEditForm, setShowEditForm] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const priorityConfig = {
     low: { 
@@ -110,9 +112,7 @@ const TaskCard = ({ task }) => {
                     onClick={(e) => {
                       e.stopPropagation();
                       setShowMenu(false);
-                      if (window.confirm('¿Eliminar esta tarea?')) {
-                        deleteTask(task._id);
-                      }
+                      setShowDeleteModal(true);
                     }}
                   >
                     <FaTrash />
@@ -238,6 +238,20 @@ const TaskCard = ({ task }) => {
           onClose={() => setShowEditForm(false)} 
         />
       )}
+
+      {/* Modal de confirmación de borrado */}
+      <ConfirmModal
+        open={showDeleteModal}
+        title="Eliminar tarea"
+        message="Esta acción eliminará la tarea de forma permanente. ¿Quieres continuar?"
+        confirmLabel="Sí, eliminar"
+        cancelLabel="Cancelar"
+        onCancel={() => setShowDeleteModal(false)}
+        onConfirm={() => {
+          deleteTask(task._id);
+          setShowDeleteModal(false);
+        }}
+      />
     </>
   );
 };

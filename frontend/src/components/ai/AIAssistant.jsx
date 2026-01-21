@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { aiService } from '../../services/aiService';
 import { useTaskStore } from '../../store/taskStore';
 import { useAuthStore } from '../../store/authStore';
+import { useAIStore } from '../../store/aiStore';
 import { FaTimes, FaRobot, FaPaperPlane, FaMagic, FaLightbulb, FaComments, FaStar } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
 
@@ -9,10 +10,11 @@ const AIAssistant = ({ onClose }) => {
   const [activeTab, setActiveTab] = useState('chat');
   const [naturalText, setNaturalText] = useState('');
   const [chatMessage, setChatMessage] = useState('');
-  const [chatHistory, setChatHistory] = useState([]);
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef(null);
   const { fetchTasks } = useTaskStore();
   const { user } = useAuthStore();
+  const { chatHistory, addUserMessage, addAssistantMessage, clearChat } = useAIStore();
 
   // Bloquear scroll del body mientras el modal está abierto
   useEffect(() => {
@@ -115,13 +117,13 @@ const AIAssistant = ({ onClose }) => {
     const userMessage = chatMessage;
     setChatMessage('');
     const previousHistory = chatHistory;
-    setChatHistory([...previousHistory, { role: 'user', content: userMessage }]);
+    addUserMessage(userMessage);
 
     setLoading(true);
     try {
       // Enviamos el historial previo (sin el último mensaje) para que el backend mantenga contexto
       const response = await aiService.chat(userMessage, null, previousHistory);
-      setChatHistory((prev) => [...prev, { role: 'assistant', content: response.response }]);
+      addAssistantMessage(response.response);
     } catch (error) {
       setChatHistory((prev) => [
         ...prev,
@@ -132,9 +134,22 @@ const AIAssistant = ({ onClose }) => {
     }
   };
 
+  // Hacer scroll automático al último mensaje
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [chatHistory, loading]);
+
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50 animate-fade-in">
-      <div className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg max-w-3xl w-full h-[680px] flex flex-col border border-slate-200 dark:border-slate-700 animate-scale-in">
+    <div
+      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fade-in"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white dark:bg-slate-900 rounded-2xl overflow-hidden shadow-lg max-w-3xl w-full h-[680px] flex flex-col border border-slate-200 dark:border-slate-700 animate-scale-in"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
         <div className="flex justify-between items-center p-5 border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
           <div className="flex items-center gap-3">
@@ -265,11 +280,15 @@ const AIAssistant = ({ onClose }) => {
                 
                 {loading && (
                   <div className="flex justify-start">
-                    <div className="bg-slate-100 dark:bg-slate-800 px-3 py-2 rounded-2xl text-xs text-slate-600 dark:text-slate-300">
-                      La IA está escribiendo...
+                    <div className="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-2xl text-xs text-slate-600 dark:text-slate-300 flex items-center gap-1.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500 animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500 animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400 dark:bg-slate-500 animate-pulse" />
                     </div>
                   </div>
                 )}
+
+                <div ref={messagesEndRef} />
               </div>
 
               {/* Input */}

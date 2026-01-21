@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useTaskStore } from '../../store/taskStore';
 import { FaCheck, FaTrash, FaEdit, FaClock, FaEllipsisV, FaChevronDown, FaChevronUp, FaCheckCircle } from 'react-icons/fa';
 import TaskForm from './TaskForm';
+import ConfirmModal from '../common/ConfirmModal';
 
 const TaskTable = () => {
   const { tasks, toggleComplete, deleteTask, toggleSubtask } = useTaskStore();
@@ -11,6 +12,7 @@ const TaskTable = () => {
   const [showMenu, setShowMenu] = useState(null);
   const [menuPosition, setMenuPosition] = useState({ top: 0, right: 0 });
   const menuButtonRefs = useRef({});
+  const [deleteTaskId, setDeleteTaskId] = useState(null);
 
   const priorityConfig = {
     low: {
@@ -47,10 +49,15 @@ const TaskTable = () => {
   };
 
   const handleDelete = (taskId) => {
-    if (window.confirm('¿Eliminar esta tarea?')) {
-      deleteTask(taskId);
-    }
+    setDeleteTaskId(taskId);
     setShowMenu(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (deleteTaskId) {
+      deleteTask(deleteTaskId);
+    }
+    setDeleteTaskId(null);
   };
 
   if (tasks.length === 0) {
@@ -286,6 +293,16 @@ const TaskTable = () => {
           }} 
         />
       )}
+
+      <ConfirmModal
+        open={!!deleteTaskId}
+        title="Eliminar tarea"
+        message="Esta acción eliminará la tarea de forma permanente. ¿Quieres continuar?"
+        confirmLabel="Sí, eliminar"
+        cancelLabel="Cancelar"
+        onCancel={() => setDeleteTaskId(null)}
+        onConfirm={handleConfirmDelete}
+      />
     </>
   );
 };

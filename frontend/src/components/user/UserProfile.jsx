@@ -4,6 +4,7 @@ import { useAuthStore } from '../../store/authStore';
 import api from '../../services/api';
 import { toast } from 'react-hot-toast';
 import { FaUser, FaEnvelope, FaTrashAlt, FaSave, FaCamera, FaArrowLeft } from 'react-icons/fa';
+import ConfirmModal from '../common/ConfirmModal';
 
 const UserProfile = () => {
   const navigate = useNavigate();
@@ -13,6 +14,8 @@ const UserProfile = () => {
     email: user?.email || '',
     avatar: user?.avatar || '',
   });
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,15 +33,22 @@ const UserProfile = () => {
     }
   };
 
-  const handleDelete = async () => {
-    if (!window.confirm('Esta acción eliminará tu cuenta y todas tus tareas. ¿Continuar?')) return;
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
 
+  const handleConfirmDelete = async () => {
     try {
+      setDeleting(true);
       await deleteAccount();
       toast.success('Cuenta eliminada correctamente');
+      // Idealmente aquí podrías redirigir al login
     } catch (error) {
       const msg = error.response?.data?.message || 'Error al eliminar la cuenta';
       toast.error(msg);
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -201,6 +211,16 @@ const UserProfile = () => {
           </button>
         </div>
       </div>
+        <ConfirmModal
+          open={showDeleteModal}
+          title="¿Eliminar tu cuenta?"
+          message="Esta acción eliminará tu cuenta y todas tus tareas. No se puede deshacer."
+          confirmLabel="Sí, eliminar definitivamente"
+          cancelLabel="Cancelar"
+          loading={deleting || loading}
+          onCancel={() => !deleting && setShowDeleteModal(false)}
+          onConfirm={handleConfirmDelete}
+        />
     </div>
   );
 };

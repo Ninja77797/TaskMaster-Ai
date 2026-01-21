@@ -33,7 +33,7 @@ app.use('/api/ai', aiRoutes);
 // Ruta de prueba
 app.get('/', (req, res) => {
   res.json({ 
-    message: '🚀 API TaskMaster AI funcionando correctamente',
+    message: '🚀 API Kadoo funcionando correctamente',
     version: '1.0.0',
     endpoints: {
       auth: '/api/auth',

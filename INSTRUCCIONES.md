@@ -1,4 +1,4 @@
-# 🚀 INSTRUCCIONES DE INICIO - TaskMaster AI
+# 🚀 INSTRUCCIONES DE INICIO - Kadoo
 
 ## ✅ LO QUE YA ESTÁ HECHO
 
@@ -80,7 +80,7 @@ Abre tu navegador en: http://localhost:5000
 Deberías ver:
 ```json
 {
-  "message": "🚀 API TaskMaster AI funcionando correctamente",
+  "message": "🚀 API Kadoo funcionando correctamente",
   "version": "1.0.0",
   "endpoints": {
     "auth": "/api/auth",

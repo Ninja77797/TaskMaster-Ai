@@ -112,6 +112,7 @@ export const useAuthStore = create((set) => ({
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     set({ user: null, token: null });
+    // Nota: el estado del chat de IA se limpia en su propio store si es necesario.
   },
 
   clearError: () => set({ error: null }),

@@ -217,15 +217,36 @@ Reglas importantes:
   }
 };
 
+// Análisis completo de una tarea (usado por el endpoint /ai/analyze)
+// Combina título y descripción y devuelve un objeto normalizado con
+// subtareas, prioridad, tiempo estimado, tags, categoría y descripción.
+export const analyzeTask = async (title, description) => {
+  const baseText = `${title}. ${description || ''}`;
+  const structured = await parseNaturalLanguage(baseText);
+
+  return {
+    subtasks: structured.subtasks || [],
+    priority: structured.priority || 'medium',
+    estimatedTime: structured.estimatedTime || 30,
+    tags: structured.tags || [],
+    category: structured.category || '',
+    description: structured.description || description || '',
+  };
+};
+
 // Asistente de chat general con contexto y personalización por usuario
 export const chatAssistant = async (userMessage, history = [], taskContext = null, user = null) => {
   try {
     const userName = user?.name || user?.email || 'usuario';
 
-    const baseSystemContent = `Eres un asistente de productividad experto llamado TaskMaster AI.
-Respondes SIEMPRE en español, con un tono cercano y profesional.
-El usuario se llama ${userName}; puedes mencionarlo por su nombre de forma natural algunas veces (no en cada frase).
-Ayudas a organizar tareas, priorizar, planificar y mejorar la productividad. Sé claro, directo y práctico.`;
+    const baseSystemContent = `Eres el asistente de productividad de Kadoo.
+  Respondes SIEMPRE en español, con un tono cercano y profesional.
+  El usuario se llama ${userName}; puedes mencionarlo por su nombre de forma natural algunas veces (no en cada frase).
+  Tu ámbito está LIMITADO a temas de organización personal, gestión de tareas, productividad, planificación y hábitos.
+  Si el usuario te pide cosas fuera de ese ámbito (por ejemplo, escribir código, temas legales, médicos o ajenos a tareas), responde de forma muy breve que solo puedes ayudar con organización de tareas y productividad.
+  Ayudas a organizar tareas, priorizar, planificar y mejorar la productividad.
+  Sé claro, directo y práctico, y usa emojis de forma natural y moderna (2-4 emojis por respuesta, relacionados con el contexto, sin abusar).
+  Procura que tus respuestas tengan una longitud moderada (máximo 5-7 párrafos cortos) y evita dejar frases a medias: si te estás quedando sin espacio, termina la frase actual y cierra la idea.`;
 
     const messages = [
       {
@@ -256,8 +277,8 @@ Ayudas a organizar tareas, priorizar, planificar y mejorar la productividad. Sé
     const completion = await groq.chat.completions.create({
       messages,
       model: 'llama-3.3-70b-versatile',
-      temperature: 0.7,
-      max_tokens: 500,
+      temperature: 0.65,
+      max_tokens: 650,
     });
 
     const response = completion.choices[0]?.message?.content;

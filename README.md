@@ -1,6 +1,6 @@
-# TaskMaster AI
+# Kadoo
 
-TaskMaster AI es una plataforma moderna de gestión de tareas que combina un backend en Node.js/Express con MongoDB y un frontend en React + Vite, incorporando asistentes de IA para crear y organizar tareas de forma inteligente.
+Kadoo es una plataforma moderna de gestión de tareas que combina un backend en Node.js/Express con MongoDB y un frontend en React + Vite, incorporando asistentes de IA para crear y organizar tareas de forma inteligente.
 
 ## Características principales
 

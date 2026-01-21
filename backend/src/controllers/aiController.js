@@ -160,20 +160,9 @@ export const analyzeTask = async (req, res) => {
       return res.status(400).json({ message: 'El título es requerido' });
     }
 
-    // Ejecutar todos los análisis en paralelo
-    const [subtasks, priority, estimatedTime, tags] = await Promise.all([
-      aiService.generateSubtasks(title, description),
-      aiService.suggestPriority(title, description),
-      aiService.estimateTime(title, description),
-      aiService.autoTag(title, description),
-    ]);
+    const analysis = await aiService.analyzeTask(title, description);
 
-    res.json({
-      subtasks,
-      priority,
-      estimatedTime,
-      tags,
-    });
+    res.json(analysis);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

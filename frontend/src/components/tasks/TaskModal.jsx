@@ -3,6 +3,7 @@ import { taskService } from '../../services/taskService';
 import { aiService } from '../../services/aiService';
 import { FaTimes, FaMagic, FaGripVertical, FaCheck, FaTrash, FaPlus, FaClock, FaTag, FaListUl, FaRegCalendarAlt } from 'react-icons/fa';
 import { toast } from 'react-hot-toast';
+import ConfirmModal from '../common/ConfirmModal';
 
 const TaskModal = ({ task, onClose, onUpdate }) => {
   const priorityFromBackend = {
@@ -27,6 +28,8 @@ const TaskModal = ({ task, onClose, onUpdate }) => {
   const [dragSource, setDragSource] = useState(null);
   const [newTag, setNewTag] = useState('');
   const [customSubtask, setCustomSubtask] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // Priority Styles - Modern & Minimal
   const priorityConfig = {
@@ -133,16 +136,22 @@ const TaskModal = ({ task, onClose, onUpdate }) => {
     }
   };
 
-  const handleDelete = async () => {
-    if (window.confirm('¿Eliminar esta tarea irreversiblemente?')) {
-      try {
-        await taskService.deleteTask(task._id);
-        if (onUpdate) onUpdate();
-        onClose();
-      } catch (error) {
-        console.error('Error deleting task:', error);
-        toast.error('Error al eliminar la tarea.');
-      }
+  const handleDelete = () => {
+    setShowDeleteModal(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    try {
+      setDeleting(true);
+      await taskService.deleteTask(task._id);
+      if (onUpdate) onUpdate();
+      onClose();
+    } catch (error) {
+      console.error('Error deleting task:', error);
+      toast.error('Error al eliminar la tarea.');
+    } finally {
+      setDeleting(false);
+      setShowDeleteModal(false);
     }
   };
 
@@ -154,7 +163,7 @@ const TaskModal = ({ task, onClose, onUpdate }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
+	<div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in" onClick={onClose}>
       <div 
         className="bg-white dark:bg-slate-900 rounded-3xl w-full max-w-6xl h-[85vh] shadow-2xl flex overflow-hidden ring-1 ring-black/5 animate-scale-in"
         onClick={e => e.stopPropagation()}
@@ -265,7 +274,7 @@ const TaskModal = ({ task, onClose, onUpdate }) => {
           </div>
 
           {/* Footer Actions (Left Side) */}
-          <div className="mt-auto pt-6 border-t border-gray-100 dark:border-slate-800 flex justify-between items-center text-sm">
+           <div className="mt-auto pt-6 border-t border-gray-100 dark:border-slate-800 flex justify-between items-center text-sm">
              <button onClick={handleDelete} className="text-gray-400 hover:text-red-500 font-medium px-2 py-2 transition-colors flex items-center gap-2">
                <FaTrash className="text-xs" /> Eliminar
              </button>
@@ -418,6 +427,17 @@ const TaskModal = ({ task, onClose, onUpdate }) => {
             )}
           </div>
         </div>
+
+        <ConfirmModal
+          open={showDeleteModal}
+          title="Eliminar tarea"
+          message="Esta acción eliminará la tarea de forma irreversible. ¿Deseas continuar?"
+          confirmLabel="Sí, eliminar definitivamente"
+          cancelLabel="Cancelar"
+          loading={deleting}
+          onCancel={() => !deleting && setShowDeleteModal(false)}
+          onConfirm={handleConfirmDelete}
+        />
 
       </div>
     </div>
