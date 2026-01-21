@@ -1,0 +1,407 @@
+{
+  "clientName": "Thunder Client",
+  "collectionName": "TaskMaster AI",
+  "collectionId": "taskmaster-ai-collection",
+  "dateExported": "2026-01-19",
+  "version": "1.2",
+  "folders": [
+    {
+      "id": "auth-folder",
+      "name": "🔐 Autenticación",
+      "requests": []
+    },
+    {
+      "id": "tasks-folder",
+      "name": "📋 Tareas",
+      "requests": []
+    },
+    {
+      "id": "ai-folder",
+      "name": "🤖 IA",
+      "requests": []
+    }
+  ],
+  "requests": [
+    {
+      "id": "1",
+      "name": "Registrar Usuario",
+      "url": "http://localhost:5000/api/auth/register",
+      "method": "POST",
+      "sortNum": 10,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@test.com\",\n  \"password\": \"123456\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "auth-folder"
+    },
+    {
+      "id": "2",
+      "name": "Login",
+      "url": "http://localhost:5000/api/auth/login",
+      "method": "POST",
+      "sortNum": 20,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"email\": \"juan@test.com\",\n  \"password\": \"123456\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "auth-folder"
+    },
+    {
+      "id": "3",
+      "name": "Obtener Mi Perfil",
+      "url": "http://localhost:5000/api/auth/me",
+      "method": "GET",
+      "sortNum": 30,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "folderId": "auth-folder"
+    },
+    {
+      "id": "4",
+      "name": "Crear Tarea",
+      "url": "http://localhost:5000/api/tasks",
+      "method": "POST",
+      "sortNum": 40,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Completar documentación\",\n  \"description\": \"Crear README y documentar todas las funcionalidades\",\n  \"priority\": \"high\",\n  \"category\": \"Desarrollo\",\n  \"tags\": [\"documentación\", \"urgente\"],\n  \"estimatedTime\": 120\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "5",
+      "name": "Obtener Todas las Tareas",
+      "url": "http://localhost:5000/api/tasks",
+      "method": "GET",
+      "sortNum": 50,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "6",
+      "name": "Obtener Tareas Completadas",
+      "url": "http://localhost:5000/api/tasks?completed=true",
+      "method": "GET",
+      "sortNum": 60,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [
+        {
+          "name": "completed",
+          "value": "true",
+          "isPath": false
+        }
+      ],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "7",
+      "name": "Buscar Tareas",
+      "url": "http://localhost:5000/api/tasks?search=documentación",
+      "method": "GET",
+      "sortNum": 70,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [
+        {
+          "name": "search",
+          "value": "documentación",
+          "isPath": false
+        }
+      ],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "8",
+      "name": "Obtener Una Tarea",
+      "url": "http://localhost:5000/api/tasks/ID_DE_LA_TAREA",
+      "method": "GET",
+      "sortNum": 80,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "9",
+      "name": "Actualizar Tarea",
+      "url": "http://localhost:5000/api/tasks/ID_DE_LA_TAREA",
+      "method": "PUT",
+      "sortNum": 90,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Título actualizado\",\n  \"description\": \"Nueva descripción\",\n  \"priority\": \"medium\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "10",
+      "name": "Marcar Tarea Completada/Pendiente",
+      "url": "http://localhost:5000/api/tasks/ID_DE_LA_TAREA/toggle",
+      "method": "PATCH",
+      "sortNum": 100,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "11",
+      "name": "Eliminar Tarea",
+      "url": "http://localhost:5000/api/tasks/ID_DE_LA_TAREA",
+      "method": "DELETE",
+      "sortNum": 110,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "tests": [],
+      "folderId": "tasks-folder"
+    },
+    {
+      "id": "12",
+      "name": "🤖 Generar Subtareas",
+      "url": "http://localhost:5000/api/ai/subtasks",
+      "method": "POST",
+      "sortNum": 120,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Crear aplicación web con React\",\n  \"description\": \"Aplicación moderna con React y Node.js\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "13",
+      "name": "🤖 Clasificar Prioridad",
+      "url": "http://localhost:5000/api/ai/priority",
+      "method": "POST",
+      "sortNum": 130,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Reunión urgente con cliente\",\n  \"description\": \"Problema crítico en producción\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "14",
+      "name": "🤖 Estimar Tiempo",
+      "url": "http://localhost:5000/api/ai/estimate-time",
+      "method": "POST",
+      "sortNum": 140,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Implementar sistema de login\",\n  \"description\": \"Crear frontend y backend para autenticación JWT\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "15",
+      "name": "🤖 Auto-etiquetar",
+      "url": "http://localhost:5000/api/ai/tags",
+      "method": "POST",
+      "sortNum": 150,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Optimizar base de datos\",\n  \"description\": \"Mejorar índices y queries lentas en MongoDB\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "16",
+      "name": "🤖 Crear desde Lenguaje Natural",
+      "url": "http://localhost:5000/api/ai/parse",
+      "method": "POST",
+      "sortNum": 160,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"text\": \"Necesito hacer una reunión mañana a las 3pm para revisar el sprint con todo el equipo\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "17",
+      "name": "🤖 Chat Asistente",
+      "url": "http://localhost:5000/api/ai/chat",
+      "method": "POST",
+      "sortNum": 170,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"message\": \"¿Cómo puedo organizar mejor mis tareas diarias?\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    },
+    {
+      "id": "18",
+      "name": "🤖 Análisis Completo",
+      "url": "http://localhost:5000/api/ai/analyze",
+      "method": "POST",
+      "sortNum": 180,
+      "created": "2026-01-19T00:00:00.000Z",
+      "modified": "2026-01-19T00:00:00.000Z",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Bearer TU_TOKEN_AQUI"
+        }
+      ],
+      "params": [],
+      "body": {
+        "type": "json",
+        "raw": "{\n  \"title\": \"Desarrollar dashboard de analytics\",\n  \"description\": \"Dashboard con gráficos en tiempo real y estadísticas\"\n}",
+        "form": []
+      },
+      "tests": [],
+      "folderId": "ai-folder"
+    }
+  ]
+}

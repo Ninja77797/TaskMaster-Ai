@@ -1,0 +1,489 @@
+{
+  "info": {
+    "name": "TaskMaster AI",
+    "description": "API completa de TaskMaster AI con funcionalidades de IA",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "🔐 Autenticación",
+      "item": [
+        {
+          "name": "Registrar Usuario",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"email\": \"juan@test.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "register"]
+            },
+            "description": "Registra un nuevo usuario y devuelve un token JWT"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"juan@test.com\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "login"]
+            },
+            "description": "Inicia sesión y devuelve un token JWT"
+          }
+        },
+        {
+          "name": "Obtener Mi Perfil",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}",
+                "description": "Token JWT obtenido del login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/auth/me",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "auth", "me"]
+            },
+            "description": "Obtiene el perfil del usuario autenticado"
+          }
+        }
+      ]
+    },
+    {
+      "name": "📋 Tareas",
+      "item": [
+        {
+          "name": "Crear Tarea",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Completar documentación\",\n  \"description\": \"Crear README y documentar todas las funcionalidades\",\n  \"priority\": \"high\",\n  \"category\": \"Desarrollo\",\n  \"tags\": [\"documentación\", \"urgente\"],\n  \"estimatedTime\": 120\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/tasks",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks"]
+            },
+            "description": "Crea una nueva tarea"
+          }
+        },
+        {
+          "name": "Obtener Todas las Tareas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks"]
+            },
+            "description": "Obtiene todas las tareas del usuario"
+          }
+        },
+        {
+          "name": "Obtener Tareas Completadas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks?completed=true",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks"],
+              "query": [
+                {
+                  "key": "completed",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Filtra solo las tareas completadas"
+          }
+        },
+        {
+          "name": "Buscar Tareas",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks?search=documentación",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks"],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "documentación"
+                }
+              ]
+            },
+            "description": "Busca tareas por título o descripción"
+          }
+        },
+        {
+          "name": "Obtener Una Tarea",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks/{{taskId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks", "{{taskId}}"]
+            },
+            "description": "Obtiene los detalles de una tarea específica"
+          }
+        },
+        {
+          "name": "Actualizar Tarea",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Título actualizado\",\n  \"description\": \"Nueva descripción\",\n  \"priority\": \"medium\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/tasks/{{taskId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks", "{{taskId}}"]
+            },
+            "description": "Actualiza una tarea existente"
+          }
+        },
+        {
+          "name": "Marcar Completada/Pendiente",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks/{{taskId}}/toggle",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks", "{{taskId}}", "toggle"]
+            },
+            "description": "Alterna el estado de completado de una tarea"
+          }
+        },
+        {
+          "name": "Eliminar Tarea",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:5000/api/tasks/{{taskId}}",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "tasks", "{{taskId}}"]
+            },
+            "description": "Elimina una tarea permanentemente"
+          }
+        }
+      ]
+    },
+    {
+      "name": "🤖 IA",
+      "item": [
+        {
+          "name": "Generar Subtareas",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Crear aplicación web con React\",\n  \"description\": \"Aplicación moderna con React y Node.js\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/subtasks",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "subtasks"]
+            },
+            "description": "Genera subtareas automáticamente usando IA"
+          }
+        },
+        {
+          "name": "Clasificar Prioridad",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Reunión urgente con cliente\",\n  \"description\": \"Problema crítico en producción\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/priority",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "priority"]
+            },
+            "description": "La IA sugiere la prioridad de la tarea (low, medium, high)"
+          }
+        },
+        {
+          "name": "Estimar Tiempo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Implementar sistema de login\",\n  \"description\": \"Crear frontend y backend para autenticación JWT\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/estimate-time",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "estimate-time"]
+            },
+            "description": "La IA estima el tiempo necesario en minutos"
+          }
+        },
+        {
+          "name": "Auto-etiquetar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Optimizar base de datos\",\n  \"description\": \"Mejorar índices y queries lentas en MongoDB\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/tags",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "tags"]
+            },
+            "description": "Genera etiquetas relevantes automáticamente"
+          }
+        },
+        {
+          "name": "Crear desde Lenguaje Natural",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"text\": \"Necesito hacer una reunión mañana a las 3pm para revisar el sprint con todo el equipo\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/parse",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "parse"]
+            },
+            "description": "Convierte texto natural en una tarea estructurada y la crea automáticamente"
+          }
+        },
+        {
+          "name": "Chat Asistente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"¿Cómo puedo organizar mejor mis tareas diarias?\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/chat",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "chat"]
+            },
+            "description": "Chat con el asistente de IA para consejos de productividad"
+          }
+        },
+        {
+          "name": "Análisis Completo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Desarrollar dashboard de analytics\",\n  \"description\": \"Dashboard con gráficos en tiempo real y estadísticas\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:5000/api/ai/analyze",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "5000",
+              "path": ["api", "ai", "analyze"]
+            },
+            "description": "Ejecuta todos los análisis de IA en paralelo: subtareas, prioridad, tiempo y tags"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "TU_TOKEN_AQUI",
+      "type": "string"
+    },
+    {
+      "key": "taskId",
+      "value": "ID_DE_LA_TAREA",
+      "type": "string"
+    }
+  ]
+}

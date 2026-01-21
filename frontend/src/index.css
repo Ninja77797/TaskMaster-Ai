@@ -1,0 +1,193 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    /* Tema claro suave y tema oscuro más elegante y legible */
+    @apply antialiased text-slate-900 bg-slate-50 dark:text-slate-100 dark:bg-slate-900;
+    overflow-x: hidden;
+  }
+  
+  body.dark {
+  }
+  
+  * {
+    @apply transition-colors duration-150;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    /* Botón principal más consistente en ambos temas */
+    @apply bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-400 text-white font-medium py-2.5 px-5 rounded-lg shadow-sm hover:shadow transition-all duration-200;
+  }
+  
+  .btn-secondary {
+    /* Botón secundario con fondo menos "apagado" en oscuro */
+    @apply bg-white hover:bg-slate-50 text-slate-800
+      dark:bg-slate-800/80 dark:hover:bg-slate-700/80 dark:text-slate-100
+      font-medium py-2.5 px-5 rounded-lg border border-slate-200 dark:border-slate-700 transition-all duration-200 shadow-sm hover:shadow;
+  }
+  
+  /* Botones relacionados con IA con borde neón animado */
+  .btn-ia-neon {
+    position: relative;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    background-image:
+      linear-gradient(#ffffff, #ffffff),
+      linear-gradient(120deg, #7c3aed, #a855f7, #ec4899, #f97316, #22c55e, #7c3aed);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+    box-shadow: 0 0 12px rgba(147, 51, 234, 0.45);
+    animation: iaNeonBorder 8s linear infinite;
+  }
+
+  .dark .btn-ia-neon {
+    background-image:
+      linear-gradient(#020617, #020617),
+      linear-gradient(120deg, #7c3aed, #a855f7, #ec4899, #f97316, #22c55e, #7c3aed);
+    box-shadow: 0 0 16px rgba(147, 51, 234, 0.7);
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2.5 rounded-lg
+      bg-white border border-slate-300 text-slate-900 placeholder-slate-400
+      dark:bg-slate-900/70 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-500
+      focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500
+      dark:focus:ring-indigo-400 dark:focus:border-indigo-400
+      transition-all duration-150;
+  }
+  
+  .card {
+    /* Tarjetas con contraste más suave en oscuro */
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm transition-shadow duration-200 hover:shadow-md
+      dark:bg-slate-900/80 dark:border-slate-800/80;
+  }
+  
+  .card-table {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm
+      dark:bg-slate-900/80 dark:border-slate-800/80;
+  }
+  
+  .card-static {
+    @apply bg-white rounded-xl border border-slate-200 shadow-sm
+      dark:bg-slate-900/80 dark:border-slate-800/80;
+  }
+  
+  .badge {
+    @apply px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+  
+  .glass-effect {
+    /* Navbar tipo glass más agradable en oscuro */
+    @apply bg-white/80 backdrop-blur border-b border-slate-200
+      dark:bg-slate-900/80 dark:border-slate-800;
+  }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.2s ease-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+  
+  .animate-bounce-soft {
+    animation: none;
+  }
+  
+  .animate-pulse-glow {
+    animation: none;
+  }
+  
+  .animate-float {
+    animation: none;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @keyframes iaNeonBorder {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Se mantienen solo animaciones sutiles para transiciones de vistas */
+
+  /* Utilidad para ocultar barras de scroll pero permitir el desplazamiento */
+  .scrollbar-hide::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none; /* IE y Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  /* Corte curvo asimétrico para panel de imagen en auth */
+  .auth-curve {
+    border-top-left-radius: 3rem;
+    border-bottom-left-radius: 3rem;
+    /* Borde en forma de "montañas" usando un path con varias curvas */
+    clip-path: path('M 0 0 C 18% 10%, 18% 20%, 0 32% C 22% 42%, 22% 58%, 0 68% C 26% 80%, 20% 92%, 0 100% L 100% 100% L 100% 0 Z');
+  }
+}
